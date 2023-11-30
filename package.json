@@ -1,17 +1,25 @@
 {
   "name": "jira-test",
-  "version": "1.0.0",
   "description": "",
+  "version": "1.0.0",
+  "author": "Peter deHaan <peter@deseloper.com>",
+  "bugs": {
+    "url": "https://github.com/pdehaan/moz-jira-test/issues"
+  },
+  "devDependencies": {
+    "dotenv": "^16.3.1"
+  },
+  "homepage": "https://github.com/pdehaan/moz-jira-test#readme",
+  "keywords": [],
+  "license": "MPL-2.0",
   "main": "index.js",
-  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pdehaan/moz-jira-test.git"
+  },
   "scripts": {
     "start": "node index",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "Peter deHaan <peter@deseloper.com>",
-  "license": "MPL-2.0",
-  "devDependencies": {
-    "dotenv": "^16.3.1"
-  }
+  "type": "module"
 }

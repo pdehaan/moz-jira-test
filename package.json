@@ -21,8 +21,8 @@
     "url": "git+https://github.com/pdehaan/moz-jira-test.git"
   },
   "scripts": {
-    "by-calendar": "node by-calendar",
-    "by-priority": "node by-priority",
+    "by-calendar": "node by-calendar > fxa-by-calendar.json",
+    "by-priority": "node by-priority > fxa-by-priority.json",
     "start": "node index > fxa.json",
     "test": "node test > fxa-slim.json"
   },

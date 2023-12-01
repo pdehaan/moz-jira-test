@@ -5,32 +5,41 @@ import "dotenv/config";
 const { JIRA_EMAIL, JIRA_TOKEN, JIRA_SERVER } = process.env;
 const AUTH_TOKEN = jiraAuthToken(JIRA_EMAIL, JIRA_TOKEN);
 
-const bodyData = `{
-  "expand": [
-    "schema"
-  ],
-  "fields": [
-    "summary",
-    "link",
-    "resolution",
-    "status",
-    "created",
-    "updated",
-    "components",
-    "severity",
-    "labels",
+const bodyData = {
+  expand: ["schema"],
+  fields: [
     "assignee",
-    "reporter"
+    "components",
+    "created",
+    "issuetype",
+    "labels",
+    "link",
+    "reporter",
+    "resolution",
+    "severity",
+    "status",
+    "summary",
+    "updated",
   ],
-  "fieldsByKeys": false,
-  "jql": "project = FXA AND issuetype in (Bug, Task) AND resolution = Unresolved",
-  "maxResults": 100,
-  "startAt": 0
-}`;
+  fieldsByKeys: false,
+  jql: "project = FXA AND issuetype in (Bug, Task) AND resolution = Unresolved",
+  maxResults: 100,
+  startAt: 0,
+};
+
+let issues = [];
 
 try {
-  const res = await fetchJira("/rest/api/3/search", bodyData);
-  console.log(JSON.stringify(res, null, 2));
+  // Not a big fan of this pagination approach, but "it works"(tm), so #yolo.
+  while (true) {
+    const res = await fetchJira("/rest/api/3/search", JSON.stringify(bodyData));
+    issues.push(...res.issues);
+    if (issues.length >= res.total) {
+      break;
+    }
+    bodyData.startAt += bodyData.maxResults;
+  }
+  console.log(JSON.stringify(issues, null, 2));
 } catch (err) {
   console.error(err);
 }

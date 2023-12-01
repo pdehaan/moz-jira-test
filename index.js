@@ -14,15 +14,16 @@ const bodyData = {
     "issuetype",
     "labels",
     "link",
+    "priority",
     "reporter",
     "resolution",
-    "severity",
+    "customfield_10319",
     "status",
     "summary",
     "updated",
   ],
   fieldsByKeys: false,
-  jql: "project = FXA AND issuetype in (Bug, Task) AND resolution = Unresolved",
+  jql: "project = FXA AND issuetype IN (Bug, Task) AND resolution = Unresolved ORDER BY created DESC",
   maxResults: 100,
   startAt: 0,
 };
@@ -32,7 +33,7 @@ let issues = [];
 try {
   // Not a big fan of this pagination approach, but "it works"(tm), so #yolo.
   while (true) {
-    const res = await fetchJira("/rest/api/3/search", JSON.stringify(bodyData));
+    const res = await fetchJira("/rest/api/3/search", bodyData);
     issues.push(...res.issues);
     if (issues.length >= res.total) {
       break;
@@ -52,7 +53,7 @@ async function fetchJira(path, bodyData) {
       Accept: "application/json",
       "Content-Type": "application/json",
     },
-    body: bodyData,
+    body: JSON.stringify(bodyData),
   });
 
   // console.log(res.headers);

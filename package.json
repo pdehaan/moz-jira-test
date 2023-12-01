@@ -7,7 +7,10 @@
     "url": "https://github.com/pdehaan/moz-jira-test/issues"
   },
   "devDependencies": {
-    "dotenv": "^16.3.1"
+    "dotenv": "^16.3.1",
+    "lodash.groupby": "^4.6.0",
+    "lodash.sortby": "^4.7.0",
+    "luxon": "^3.4.4"
   },
   "homepage": "https://github.com/pdehaan/moz-jira-test#readme",
   "keywords": [],
@@ -18,6 +21,8 @@
     "url": "git+https://github.com/pdehaan/moz-jira-test.git"
   },
   "scripts": {
+    "by-calendar": "node by-calendar",
+    "by-priority": "node by-priority",
     "start": "node index > fxa.json",
     "test": "node test > fxa-slim.json"
   },

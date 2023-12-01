@@ -1,16 +1,23 @@
-import issues from "./fxa.json" assert { type: "json" };
+import $issues from "./fxa.json" assert { type: "json" };
 
-const $issues = issues.map((issue) => {
-  return Object.assign({}, issue.fields, {
+const issues = $issues.map((issue) => {
+  const { issuetype, priority, status, components, assignee, reporter, created, updated } = issue.fields;
+
+  const data = Object.assign({}, issue.fields, {
     key: issue.key,
-    issuetype: issue.fields.issuetype.name,
-    status: issue.fields.status.name,
-    components: issue.fields.components.map((c) => c.name),
-    assignee: issue.fields.assignee?.displayName,
-    reporter: issue.fields.reporter?.displayName,
-    created: new Date(issue.fields.created),
-    updated: new Date(issue.fields.updated),
+    issuetype: issuetype.name,
+    priority: priority.name,
+    // Remap `severity`
+    severity: issue.fields.customfield_10319?.value ?? null,
+    status: status.name,
+    components: components.map((c) => c.name),
+    assignee: assignee?.displayName,
+    reporter: reporter?.displayName,
+    created: new Date(created),
+    updated: new Date(updated),
   });
+  delete data.customfield_10319;
+  return data;
 });
 
-console.log(JSON.stringify($issues, null, 2));
+console.log(JSON.stringify(issues, null, 2));
